@@ -12,9 +12,9 @@ ENV SUPERSET_CONFIG_PATH=/app/docker/superset_config.py
 
 EXPOSE 8088
 
-# Install additional Python packages using the system pip (will install into global site-packages)
-# The superset process will be able to access these packages
-RUN pip3 install --no-cache-dir \
+# Install additional Python packages directly into the venv's site-packages
+# This ensures Superset can find them at runtime
+RUN pip3 install --no-cache-dir --target=/app/.venv/lib/python3.10/site-packages \
     google \
     google-api-core \
     google-cloud-bigquery \
