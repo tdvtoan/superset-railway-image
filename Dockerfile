@@ -12,7 +12,8 @@ ENV SUPERSET_CONFIG_PATH=/app/docker/superset_config.py
 
 EXPOSE 8088
 
-RUN pip install --no-cache-dir \
+# Install packages into Superset's virtual environment
+RUN /app/.venv/bin/pip install --no-cache-dir \
     google \
     google-api-core \
     google-cloud-bigquery \
