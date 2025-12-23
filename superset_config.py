@@ -21,7 +21,13 @@ def _env_bool(name, default=False):
 # Read environment values safely
 SUPERSET_CACHE_REDIS_URL = os.environ.get("SUPERSET_CACHE_REDIS_URL", "")
 RATELIMIT_STORAGE_URI = SUPERSET_CACHE_REDIS_URL or os.environ.get("RATELIMIT_STORAGE_URI", "")
-SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI", "")
+
+# Get database URI - prefer DATABASE_URL over SQLALCHEMY_DATABASE_URI to avoid template strings
+_db_uri = os.environ.get("SQLALCHEMY_DATABASE_URI", "")
+# If SQLALCHEMY_DATABASE_URI contains template syntax or is empty, use DATABASE_URL instead
+if not _db_uri or "${" in _db_uri:
+    _db_uri = os.environ.get("DATABASE_URL", "")
+SQLALCHEMY_DATABASE_URI = _db_uri
 SUPERSET_ENV = os.environ.get("SUPERSET_ENV", "production")
 SUPERSET_LOAD_EXAMPLES = _env_bool("SUPERSET_LOAD_EXAMPLES", False)
 SUPERSET_SECRET_KEY = os.environ.get("SUPERSET_SECRET_KEY", "temporary_superset_secret_key")
