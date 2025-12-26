@@ -30,7 +30,8 @@ if not _db_uri or "${" in _db_uri:
 SQLALCHEMY_DATABASE_URI = _db_uri
 SUPERSET_ENV = os.environ.get("SUPERSET_ENV", "production")
 SUPERSET_LOAD_EXAMPLES = _env_bool("SUPERSET_LOAD_EXAMPLES", False)
-SUPERSET_SECRET_KEY = os.environ.get("SUPERSET_SECRET_KEY", "temporary_superset_secret_key")
+# Flask needs SECRET_KEY, not SUPERSET_SECRET_KEY
+SECRET_KEY = os.environ.get("SECRET_KEY") or os.environ.get("SUPERSET_SECRET_KEY", "temporary_superset_secret_key")
 # Ports: try converting to int, with sensible defaults
 try:
     SUPERSET_PORT = int(os.environ.get("SUPERSET_PORT", 8088))
@@ -75,7 +76,7 @@ REDIS_HOST = REDIS_HOST
 REDIS_PORT = REDIS_PORT
 SUPERSET_ENV = SUPERSET_ENV
 SUPERSET_LOAD_EXAMPLES = SUPERSET_LOAD_EXAMPLES
-SUPERSET_SECRET_KEY = SUPERSET_SECRET_KEY
+SECRET_KEY = SECRET_KEY
 SUPERSET_PORT = SUPERSET_PORT
 
 # Optional: log what we loaded (avoid logging secrets)
