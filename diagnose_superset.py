@@ -50,12 +50,16 @@ try:
 except Exception as e:
     print(f"✗ Login endpoint check failed: {e}")
 
-# Test 5: Try login with JSON
+# Test 5: Try login with JSON (include provider field)
 print("\n[5] Attempting login...")
 try:
     response = requests.post(
         f"{SUPERSET_URL}/api/v1/security/login",
-        json={"username": "admin", "password": "#Stayahead88"},
+        json={
+            "username": "admin",
+            "password": "#Stayahead88",
+            "provider": "db"  # Required by Flask-AppBuilder
+        },
         verify=False,
         timeout=5,
     )

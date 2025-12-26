@@ -51,7 +51,11 @@ class SupersetClient:
 
             response = self.session.post(
                 f"{self.base_url}/api/v1/security/login",
-                json={"username": self.username, "password": self.password},
+                json={
+                    "username": self.username,
+                    "password": self.password,
+                    "provider": "db"  # Required by Flask-AppBuilder
+                },
                 verify=False,  # For Railway SSL issues
                 timeout=10,
                 allow_redirects=False,
